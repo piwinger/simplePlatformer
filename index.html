@@ -13,6 +13,15 @@
             const canvas = document.getElementById("game");
             const gameArea = canvas.getContext("2d");
 
+            setup = function() {
+                setInterval(gameLoop,1000/30);
+            }
+
+            gameLoop = function() {
+                drawBackground();
+                drawPlayer();
+            }
+
             drawBackground = function() {
                 gameArea.fillStyle="black";
                 gameArea.fillRect(0,0, canvas.width, canvas.height);        
@@ -25,15 +34,12 @@
                     width: 10,
                     height: 20
                 };
-
                 gameArea.fillStyle="white";
-                gameArea.fillRect(player.x - player.width/2, player.y - player.height, player.width, player.height);
-
-                
+                gameArea.fillRect(player.x - player.width/2, player.y - player.height, player.width, player.height);                
             }
-            
-            drawBackground();
-            drawPlayer();
+
+            setup();
+            gameLoop();
         }
     </script>
 </body>
