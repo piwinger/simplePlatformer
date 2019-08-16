@@ -13,8 +13,26 @@
             const canvas = document.getElementById("game");
             const gameArea = canvas.getContext("2d");
 
+            const gravity = 0.5;
+            const speed = 2;
+
+            const player = {
+                    x: 200,
+                    y: 200,
+                    width: 10,
+                    height: 20,
+                    velocity: {
+                        x: 0,
+                        y: 0
+                    },
+                    moveLeft: false,
+                    moveRight: false,
+                    jump: false
+                };
             setup = function() {
                 setInterval(gameLoop,1000/30);
+                document.addEventListener("keydown", keyDown);
+                document.addEventListener("keyup", keyUp); 
             }
 
             gameLoop = function() {
@@ -28,16 +46,56 @@
             }
 
             drawPlayer = function() {
-                const player = {
-                    x: 200,
-                    y: 200,
-                    width: 10,
-                    height: 20
-                };
-                gameArea.fillStyle="white";
-                gameArea.fillRect(player.x - player.width/2, player.y - player.height, player.width, player.height);                
+                update = function() {
+                    if(player.moveRight) { 
+                        player.x += speed;
+                    }   
+                    if(player.moveLeft) {
+                        player.x -= speed;
+                    }
+
+                    if(player.x > canvas.width) {
+                        player.x = canvas.width;
+                    }
+                    if(player.x < 0) {
+                        player.x = 0;
+                    }                 
+                }
+                draw = function() {
+                    gameArea.fillStyle="white";
+                    gameArea.fillRect(player.x - player.width/2, player.y - player.height, player.width, player.height);
+                }
+                      
+                update();
+                draw();
             }
 
+            keyDown = function(evt) {
+                switch(evt.keyCode) {
+                    case 37:    //Left Arrow
+                        player.moveLeft=true;
+                        break;
+                    case 38:    //Up Arro
+                        player.jump=true;
+                        break;
+                    case 39:    //Right Arrow
+                        player.moveRight=true;
+                        break;
+                }
+            }
+            keyUp = function(evt) {
+                switch(evt.keyCode) {
+                    case 37:    //Left Arrow
+                        player.moveLeft=false;
+                        break;
+                    case 38:    //Up Arrow
+                        player.jump=false;
+                        break;
+                    case 39:    //Right Arrow
+                        player.moveRight=false;
+                        break;
+                }
+            }
             setup();
             gameLoop();
         }
