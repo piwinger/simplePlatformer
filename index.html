@@ -10,15 +10,30 @@
     <canvas id="game" width="800" height="600" />
     <script>
         window.onload = function() {
+            const canvas = document.getElementById("game");
+            const gameArea = canvas.getContext("2d");
 
             drawBackground = function() {
-                canvas = document.getElementById("game")
-                gameArea = canvas.getContext("2d");
                 gameArea.fillStyle="black";
                 gameArea.fillRect(0,0, canvas.width, canvas.height);        
             }
+
+            drawPlayer = function() {
+                const player = {
+                    x: 200,
+                    y: 200,
+                    width: 10,
+                    height: 20
+                };
+
+                gameArea.fillStyle="white";
+                gameArea.fillRect(player.x - player.width/2, player.y - player.height, player.width, player.height);
+
+                
+            }
             
             drawBackground();
+            drawPlayer();
         }
     </script>
 </body>
